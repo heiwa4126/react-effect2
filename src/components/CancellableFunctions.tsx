@@ -1,5 +1,6 @@
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { useRef, useState } from "react";
-import { delay, delay2, ultimateAnswer1 } from "../libs/delay";
+import { delay, delay2, ultimateAnswer1, ultimateAnswer2 } from "../libs/delay";
 
 export default CancellableFunctions;
 function CancellableFunctions() {
@@ -7,6 +8,7 @@ function CancellableFunctions() {
     <>
       <h1>Cancellable async Functions</h1>
       <p>中断可能なasync関数を作る練習</p>
+      <CF4 />
       <CF3 />
       <CF2 />
       <CF1 />
@@ -94,6 +96,35 @@ function CF3() {
           abort
         </button>
       </div>
+    </>
+  );
+}
+
+// いちばんありがちなパターン。あとで外だしにする
+function uqFmt(uq: UseQueryResult<string>): string {
+  if (uq.isLoading) return "Loading...";
+  if (uq.isError) {
+    console.log(uq.error);
+    return (uq.error as Error).message;
+  }
+  return uq.data;
+}
+
+function CF4() {
+  const q = useQuery<string, Error>({
+    queryKey: ["ultimateAnswer2"],
+    queryFn: async ({ signal }) => ultimateAnswer2(3000, signal),
+  });
+
+  return (
+    <>
+      <h2>CF4</h2>
+      <p>
+        TanStack query で「究極の答え」をコンポーネントがレンダリングされた時に計算する(3秒後に計算終了)。
+        <br />
+        strict modeだと、1回アボートされるのが見えるはず(コンソール参照)。
+      </p>
+      <pre>{uqFmt(q)}</pre>
     </>
   );
 }

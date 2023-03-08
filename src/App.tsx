@@ -9,7 +9,7 @@ import { App4 } from "./components/App4";
 import { App5 } from "./components/App5";
 import { App6 } from "./components/App6";
 import AppSelector from "./components/AppSelector";
-import CancellableFunctions from "./components/CancelDelay";
+import CancellableFunctions from "./components/CancellableFunctions";
 
 function App() {
   const apps = [App0, App1, App2, App3, App4, App5, App6, CancellableFunctions];

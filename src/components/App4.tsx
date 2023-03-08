@@ -22,7 +22,7 @@ export function App4() {
   return (
     <>
       <h1>App4</h1>
-      <p>TanStack query (旧 react-query)を使わないでApp3と同じものを書くのは意外と難しい。</p>
+      <p>TanStack query (旧 react-query)を使わないでApp3と同じものを書くのは意外とめんどくさい。</p>
       <pre>{objJStr(data)}</pre>
     </>
   );

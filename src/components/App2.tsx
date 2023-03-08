@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 
 // App2
+// sample from https://tanstack.com/query/latest/docs/react/overview
 export function App2() {
-  // sample from https://tanstack.com/query/latest/docs/react/overview
   const { isLoading, isError, error, data } = useQuery({
     queryKey: ["repoData"],
-    queryFn: () => fetch("https://api.github.com/repos/tannerlinsley/react-queryX").then((res) => res.json()),
+    queryFn: () => fetch("https://api.github.com/repos/tannerlinsley/react-query").then((res) => res.json()),
     useErrorBoundary: true,
   });
 

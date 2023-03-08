@@ -1,9 +1,32 @@
 // from https://javascript.plainenglish.io/react-18-useeffect-double-call-for-apis-emergency-fix-724b7ee6a646
-import { useEffect, useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
 import "./App.css";
+import { App0 } from "./components/App0";
+import { App1 } from "./components/App1";
+import { App2 } from "./components/App2";
+import { App3 } from "./components/App3";
+import { App4 } from "./components/App4";
+const queryClient = new QueryClient();
 
-function App() {
-  const [app, setApp] = useState(0);
+function apps(n: number) {
+  switch (n) {
+    case 0:
+      return <App0 />;
+    case 1:
+      return <App1 />;
+    case 2:
+      return <App2 />;
+    case 3:
+      return <App3 />;
+    case 4:
+      return <App4 />;
+  }
+  return <p>something wrong?</p>;
+}
+
+function Nav() {
+  const [app, setApp] = useState(4);
   return (
     <>
       <div>
@@ -21,6 +44,27 @@ function App() {
         >
           app1
         </button>
+        <button
+          onClick={() => {
+            setApp(2);
+          }}
+        >
+          app2
+        </button>
+        <button
+          onClick={() => {
+            setApp(3);
+          }}
+        >
+          app3
+        </button>
+        <button
+          onClick={() => {
+            setApp(4);
+          }}
+        >
+          app4
+        </button>
         current={app}
       </div>
       {apps(app)}
@@ -28,66 +72,11 @@ function App() {
   );
 }
 
-function apps(n: number) {
-  switch (n) {
-    case 0:
-      return <App0 />;
-    case 1:
-      return <App1 />;
-  }
-  return <p>something wrong?</p>;
-}
-
-function getUrl(path: string): string {
-  return new URL(document.URL).origin + path;
-}
-
-// App0 : a bad exeample
-function App0() {
-  const [msg, setMsg] = useState("(none)");
-  useEffect(() => {
-    //
-    console.log("app0 useEffect");
-    fetch(getUrl("/hello.json"))
-      .then((res) => res.json())
-      .then((j) => {
-        setMsg(j.msg);
-      });
-  }, []);
-
+function App() {
   return (
-    <div>
-      <h1>App0 (a bad example)</h1>
-      <p>{msg}</p>
-      <p>strictModeでfetchが2回呼ばれる。よくない</p>
-    </div>
-  );
-}
-
-// App1 : a bad exeample
-function App1() {
-  const [msg, setMsg] = useState("(none)");
-  useEffect(() => {
-    // strictModeで2回呼ばれるが、fetchをちゃんと取り消す。
-    // エラーは表示されるが正しい動作。
-    const controller = new AbortController();
-    console.log("app1 useEffect");
-    fetch(getUrl("/hello.json"), {
-      signal: controller.signal,
-    })
-      .then((res) => res.json())
-      .then((j) => {
-        setMsg(j.msg);
-      });
-    return () => controller.abort();
-  }, []);
-
-  return (
-    <div>
-      <h1>App1</h1>
-      <p>{msg}</p>
-      <p>strictModeで2回呼ばれるが、fetchをちゃんと取り消す。エラーは表示されるが正しい。</p>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <Nav />
+    </QueryClientProvider>
   );
 }
 

@@ -52,6 +52,7 @@ export async function delay2(mSec: number = 2000, signal?: AbortSignal): Promise
  * @return {*}  {Promise<string>}
  */
 export async function ultimateAnswer2(mSec: number = 2000, signal?: AbortSignal): Promise<string> {
+  console.log("ultimateAnswer2() begin.");
   return delay2(mSec, signal).then(() => {
     return "42?";
   });

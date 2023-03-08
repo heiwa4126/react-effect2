@@ -23,6 +23,15 @@ export function App6() {
       <h1>App6</h1>
       <p>TanStack query (旧 react-query)を使う。App3にcancellation追加したもの。</p>
       <pre>{uqFmt(q)}</pre>
+      <div>
+        <button
+          onClick={() => {
+            q.refetch();
+          }}
+        >
+          refetch
+        </button>
+      </div>
     </>
   );
 }

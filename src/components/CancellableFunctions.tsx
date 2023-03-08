@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import { useQuery, useQueryClient, UseQueryResult } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { delay, delay2, ultimateAnswer1, ultimateAnswer2 } from "../libs/delay";
 
@@ -102,19 +102,21 @@ function CF3() {
 
 // いちばんありがちなパターン。あとで外だしにする
 function uqFmt(uq: UseQueryResult<string>): string {
-  if (uq.isLoading) return "Loading...";
-  if (uq.isError) {
+  if (uq.isLoading || uq.isRefetching) return "loading...";
+  if (!uq.isSuccess) {
     console.log(uq.error);
     return (uq.error as Error).message;
   }
-  return uq.data;
+  return uq.data ?? "(undefined)";
 }
 
 function CF4() {
   const q = useQuery<string, Error>({
     queryKey: ["ultimateAnswer2"],
     queryFn: async ({ signal }) => ultimateAnswer2(3000, signal),
+    staleTime: 5 * 60 * 1000, // 5min
   });
+  const queryClient = useQueryClient();
 
   return (
     <>
@@ -125,6 +127,22 @@ function CF4() {
         strict modeだと、1回アボートされるのが見えるはず(コンソール参照)。
       </p>
       <pre>{uqFmt(q)}</pre>
+      <div>
+        <button
+          onClick={() => {
+            q.refetch();
+          }}
+        >
+          refetch
+        </button>
+        <button
+          onClick={() => {
+            queryClient.cancelQueries({ queryKey: ["ultimateAnswer2"] });
+          }}
+        >
+          cancel
+        </button>
+      </div>
     </>
   );
 }

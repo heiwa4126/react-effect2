@@ -15,7 +15,7 @@ function uqFmt(uq: UseQueryResult<string | object, Error>): string | JSX.Element
 // https://tanstack.com/query/latest/docs/react/guides/query-cancellation
 export function App5() {
   const query = useQuery<object>({
-    queryKey: ["todos"],
+    queryKey: ["hello"],
     queryFn: async ({ signal }) => {
       const hello = await fetch("/hello.json", {
         // Pass the signal to one fetch

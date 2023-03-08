@@ -1,5 +1,6 @@
 // from https://javascript.plainenglish.io/react-18-useeffect-double-call-for-apis-emergency-fix-724b7ee6a646
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import "./App.css";
 import { App0 } from "./components/App0";
 import { App1 } from "./components/App1";
@@ -16,6 +17,7 @@ function App() {
   return (
     <QueryClientProvider client={new QueryClient()}>
       <AppSelector apps={apps} init={apps.length - 1} />
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

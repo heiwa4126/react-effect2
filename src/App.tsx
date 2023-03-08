@@ -9,11 +9,13 @@ import { App4 } from "./components/App4";
 import { App5 } from "./components/App5";
 import { App6 } from "./components/App6";
 import AppSelector from "./components/AppSelector";
+import { CancelDelay } from "./components/CancelDelay";
 
 function App() {
+  const apps = [App0, App1, App2, App3, App4, App5, App6, CancelDelay];
   return (
     <QueryClientProvider client={new QueryClient()}>
-      <AppSelector apps={[App0, App1, App2, App3, App4, App5, App6]} init={6} />
+      <AppSelector apps={apps} init={apps.length - 1} />
     </QueryClientProvider>
   );
 }

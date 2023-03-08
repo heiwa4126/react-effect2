@@ -11,19 +11,18 @@ function uqFmt(uq: UseQueryResult<string | object, Error>): string | JSX.Element
   return objJStr(uq.data);
 }
 
-// App3
-export function App3() {
-  const q3 = useQuery<object | string, Error>({
+// App6
+export function App6() {
+  const q = useQuery<object | string, Error>({
     queryKey: ["hello"],
-    queryFn: () => fetchIt("/hello.json"),
-    // デフォルトだと、エラーの場合リトライする
+    queryFn: async ({ signal }) => fetchIt("/hello.json", { signal }),
   });
 
   return (
     <>
-      <h1>App3</h1>
-      <p>TanStack query (旧 react-query)を使う。</p>
-      <pre>{uqFmt(q3)}</pre>
+      <h1>App6</h1>
+      <p>TanStack query (旧 react-query)を使う。App3にcancellation追加したもの。</p>
+      <pre>{uqFmt(q)}</pre>
     </>
   );
 }

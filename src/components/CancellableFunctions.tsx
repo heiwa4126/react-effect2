@@ -101,13 +101,13 @@ function CF3() {
 }
 
 // いちばんありがちなパターン。あとで外だしにする
-function uqFmt(uq: UseQueryResult<string>): string {
-  if (uq.isLoading || uq.isRefetching) return "loading...";
-  if (!uq.isSuccess) {
-    console.log(uq.error);
-    return (uq.error as Error).message;
+function uqFmt(q: UseQueryResult<string>): string {
+  if (q.isFetching) return "loading...";
+  if (!q.isSuccess) {
+    console.log(q.error);
+    return (q.error as Error).message;
   }
-  return uq.data ?? "(undefined)";
+  return q.data ?? "(undefined)";
 }
 
 function CF4() {
@@ -129,6 +129,7 @@ function CF4() {
       <pre>{uqFmt(q)}</pre>
       <div>
         <button
+          disabled={q.isFetching}
           onClick={() => {
             q.refetch();
           }}
@@ -136,6 +137,7 @@ function CF4() {
           refetch
         </button>
         <button
+          disabled={!q.isFetching}
           onClick={() => {
             queryClient.cancelQueries({ queryKey: ["ultimateAnswer2"] });
           }}

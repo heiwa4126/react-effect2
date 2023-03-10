@@ -12,12 +12,16 @@ import { App6 } from "./components/App6";
 import { App7 } from "./components/App7";
 import AppSelector from "./components/AppSelector";
 import CancellableFunctions from "./components/CancellableFunctions";
+import { Fetch1 } from "./components/Fetch1";
 
 function App() {
-  const apps = [App0, App1, App2, App3, App4, App5, App6, CancellableFunctions, App7];
+  const apps = [App0, App1, App2, App3, App4, App5, App6, CancellableFunctions, App7, Fetch1];
   return (
     <QueryClientProvider client={new QueryClient()}>
-      <AppSelector apps={apps} init={apps.length - 1} />
+      <AppSelector
+        apps={apps}
+        init={apps.length - 1}
+      />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
